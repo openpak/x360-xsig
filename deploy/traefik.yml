@@ -1,0 +1,14 @@
+# Merge into the primary's shared ~/openpak/deploy/traefik/dynamic.yml. The gateway forwards
+# Live service 12 here.
+http:
+  routers:
+    x360-xsig-web:
+      entryPoints: [web]
+      rule: PathPrefix(`/xsig`)
+      priority: 40
+      service: x360-xsig-http
+  services:
+    x360-xsig-http:
+      loadBalancer:
+        servers:
+        - url: http://openpak-x360-xsig:10012

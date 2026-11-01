@@ -1,0 +1,24 @@
+# PRIMARY host. OpenPak Xbox 360 signature and certificate server (x360-xsig): Live service 12 requests the security
+# gateway tunnels to the primary's Traefik. Identity headers are trusted only with the gateway key.
+[Unit]
+Description=OpenPak Xbox 360 signature and certificate server (x360-xsig)
+
+[Container]
+ContainerName=openpak-x360-xsig
+Image=ghcr.io/openpak/x360-xsig:latest
+AutoUpdate=registry
+Network=openpak.network
+IP=10.89.2.207
+Environment=X360_XSIG_ADDR=:10012
+EnvironmentFile=%h/openpak/deploy/x360-gateway-key.env
+EnvironmentFile=%h/openpak/deploy/x360-xuacs-internal.env
+ReadOnly=true
+DropCapability=ALL
+NoNewPrivileges=true
+UserNS=keep-id:uid=100,gid=101
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
